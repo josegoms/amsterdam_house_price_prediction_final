@@ -13,6 +13,10 @@ class Plataforma:
         self.anuncios_validos = 0
         self.anuncios_invalidos = 0
         self.anuncios_ausentes = 0
+        self.media_preco = 0
+        self.media_area = 0
+        self.media_comodos = 0
+        self.media_preco_m2 = 0
 
     def adicionar_anuncio(self, endereco, codigo_postal, preco, area, comodos, lon, lat):
         anuncio = Anuncio(endereco, codigo_postal, preco, area, comodos, lon, lat)
@@ -33,6 +37,30 @@ class Plataforma:
                     self.anuncios_ausentes += 1
             else:
                 self.anuncios_invalidos += 1
+    def calcular_medias(self):
+
+        #Calcular totais
+        total_preco = 0
+        total_area = 0
+        total_comodos = 0
+        total_m2 = 0
+
+        for anuncio in self.anuncios:
+            if anuncio.preco:
+                total_preco += anuncio.preco
+            if anuncio.area:
+                total_area += anuncio.area
+            if anuncio.comodos:
+                total_comodos += anuncio.comodos
+            if anuncio.m2:
+                total_m2 += anuncio.m2
+
+        #Calcular médias
+        if self.anuncios_validos > 0:
+            self.media_preco = total_preco / self.anuncios_validos
+            self.media_area = total_area / self.anuncios_validos
+            self.media_comodos = total_comodos / self.anuncios_validos
+            self.media_preco_m2 = total_m2 / self.anuncios_validos
 
 class Anuncio:
         
