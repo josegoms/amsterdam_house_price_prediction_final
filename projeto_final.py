@@ -9,12 +9,30 @@ class Plataforma:
     #Construtor
     def __init__(self):
         self.anuncios = []
+        self.anuncios_lidos = 0
+        self.anuncios_validos = 0
+        self.anuncios_invalidos = 0
+        self.anuncios_ausentes = 0
 
     def adicionar_anuncio(self, endereco, codigo_postal, preco, area, comodos, lon, lat):
         anuncio = Anuncio(endereco, codigo_postal, preco, area, comodos, lon, lat)
         anuncio.transformar_dados()
         anuncio.m2 = anuncio.criar_m2()
         self.anuncios.append(anuncio)
+
+    def processar_base(self):
+
+        # Iterar sobre cada linha do conteúdo do CSV
+        for anuncio in self.anuncios:
+            self.anuncios_lidos += 1
+
+            if anuncio.preco and anuncio.codigo_postal and anuncio.comodos and anuncio.lon and anuncio.lat:
+                self.anuncios_validos += 1
+
+                if not anuncio.preco or not anuncio.area or not anuncio.comodos or not anuncio.lon or not anuncio.lat:
+                    self.anuncios_ausentes += 1
+            else:
+                self.anuncios_invalidos += 1
 
 class Anuncio:
         
